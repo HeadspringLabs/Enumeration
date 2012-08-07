@@ -3,7 +3,7 @@
 
 ### Basic Usage ###
 
-    public class Color : Enumeration<Color>
+    public class Color : Enumeration<Color, int>
     {
         public static Color Red = new Color(1, "Red");
         public static Color Blue = new Color(2, "Blue");
@@ -19,9 +19,27 @@
         Color leastFavorite = Color.Green;
     }
 
+
+
+    public class Color : Enumeration<Color, string>
+    {
+        public static Color Red = new Color("RED", "Red");
+        public static Color Blue = new Color("BLUE", "Blue");
+        public static Color Green = new Color("GREEN", "Green");
+
+        public Color(string value, string displayName) : base(value, displayName) { }
+    }
+
+    public void Using_the_color_example()
+    {
+        Color myFavorite = Color.Blue;
+
+        Color leastFavorite = Color.Green;
+    }
+
 ### Creating a select list ###
 
-    public class State : Enumeration<State>
+    public class State : Enumeration<State, int>
     {
         public static State Alabama = new State(1, "AL", "Alabama");
         public static State Alaska = new State(2, "AK", "Alaska");
@@ -48,8 +66,8 @@
     }
 
 ### As dispatch table ###
-	
-    public class Calculation : Enumeration<Calculation>
+    
+    public class Calculation : Enumeration<Calculation, int>
     {
         public static Calculation Add = new Calculation(1, "Add", (left, right) => left + right);
         public static Calculation Subtract = new Calculation(2, "Subtract", (left, right) => left - right);
@@ -71,7 +89,7 @@
 
 ### Helpful query methods ###
 
-    public class Role : Enumeration<Role>
+    public class Role : Enumeration<Role, int>
     {
         public static readonly Role System = new Role(999, "System", "System", true);
         public static readonly Role Manager = new Role(1, "Manager", "Michelle", false);
