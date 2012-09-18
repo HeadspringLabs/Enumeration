@@ -94,6 +94,16 @@ namespace Headspring
             return Value.GetHashCode();
         }
 
+        public static bool operator ==(Enumeration<TEnumeration, TValue> left, Enumeration<TEnumeration, TValue> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Enumeration<TEnumeration, TValue> left, Enumeration<TEnumeration, TValue> right)
+        {
+            return !Equals(left, right);
+        }
+
         public static TEnumeration FromValue(TValue value)
         {
             return Parse(value, "value", item => item.Value.Equals(value));
