@@ -6,7 +6,9 @@ using System.Runtime.Serialization;
 
 namespace Headspring
 {
+#if !NETFX_CORE
     [Serializable]
+#endif
     [DebuggerDisplay("{DisplayName} - {Value}")]
     public abstract class Enumeration<TEnumeration> : Enumeration<TEnumeration, int>
         where TEnumeration : Enumeration<TEnumeration>
@@ -27,7 +29,9 @@ namespace Headspring
         }
     }
 
+#if !NETFX_CORE
     [Serializable]
+#endif
     [DebuggerDisplay("{DisplayName} - {Value}")]
     [DataContract(Namespace="http://github.com/HeadspringLabs/Enumeration/5/13")] 
     public abstract class Enumeration<TEnumeration, TValue> : IComparable<TEnumeration>, IEquatable<TEnumeration>
@@ -75,12 +79,22 @@ namespace Headspring
         private static TEnumeration[] GetEnumerations()
         {
             Type enumerationType = typeof(TEnumeration);
+#if NETFX_CORE
+            return enumerationType.GetTypeInfo().DeclaredFields
+                .Where(field => field.IsStatic
+                                && field.IsPublic
+                                && enumerationType.GetTypeInfo().IsAssignableFrom(field.FieldType.GetTypeInfo()))
+                .Select(info => info.GetValue(null))
+                .Cast<TEnumeration>()
+                .ToArray();
+#else
             return enumerationType
                 .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
                 .Where(info => enumerationType.IsAssignableFrom(info.FieldType))
                 .Select(info => info.GetValue(null))
                 .Cast<TEnumeration>()
                 .ToArray();
+#endif
         }
 
         public override bool Equals(object obj)
