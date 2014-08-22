@@ -29,14 +29,14 @@ namespace Headspring
 
     [Serializable]
     [DebuggerDisplay("{DisplayName} - {Value}")]
-    [DataContract(Namespace="http://github.com/HeadspringLabs/Enumeration/5/13")] 
+    [DataContract(Namespace = "http://github.com/HeadspringLabs/Enumeration/5/13")]
     public abstract class Enumeration<TEnumeration, TValue> : IComparable<TEnumeration>, IEquatable<TEnumeration>
         where TEnumeration : Enumeration<TEnumeration, TValue>
         where TValue : IComparable
     {
-        [DataMember(Order=1)]
+        [DataMember(Order = 1)]
         readonly string _displayName;
-        [DataMember(Order=0)]
+        [DataMember(Order = 0)]
         readonly TValue _value;
 
         private static Lazy<TEnumeration[]> _enumerations = new Lazy<TEnumeration[]>(GetEnumerations);
@@ -59,6 +59,8 @@ namespace Headspring
 
         public int CompareTo(TEnumeration other)
         {
+            if (Value == null && other == null) return 0;
+            if (other == null) return 1;
             return Value.CompareTo(other.Value);
         }
 
