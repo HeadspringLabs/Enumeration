@@ -43,6 +43,11 @@ namespace Headspring
 
         protected Enumeration(TValue value, string displayName)
         {
+			if (value == null)
+			{
+				throw new ArgumentNullException();
+			}
+
             _value = value;
             _displayName = displayName;
         }
@@ -59,26 +64,6 @@ namespace Headspring
 
         public int CompareTo(TEnumeration other)
         {
-            if (Value == null)
-            {
-                if (other == null)
-                {
-                    return 0;
-                }
-
-                if (other.Value == null)
-                {
-                    return 0;
-                }
-
-                return -1;
-            }
-
-            if (other == null)
-            {
-                return 1;
-            }
-
             return Value.CompareTo(other.Value);
         }
 
