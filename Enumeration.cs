@@ -67,7 +67,7 @@ namespace Headspring
         {
             if (other == null)
             {
-                Value.CompareTo(other);
+                return Value.CompareTo(other);
             }
 
             return Value.CompareTo(other.Value);
@@ -129,7 +129,7 @@ namespace Headspring
             return Parse(displayName, "display name", item => item.DisplayName == displayName);
         }
 
-        static bool TryParse(Func<TEnumeration, bool> predicate, out TEnumeration result)
+        private static bool TryParse(Func<TEnumeration, bool> predicate, out TEnumeration result)
         {
             result = GetAll().FirstOrDefault(predicate);
             return result != null;
